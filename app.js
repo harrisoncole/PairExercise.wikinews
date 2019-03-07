@@ -3,6 +3,8 @@ const express = require('express');
 const path = require('path')
 const models = require('./models');
 const layout = require('./views/layout');
+const wikiRouter = require('./routes/wiki');
+const userRouter = require('./routes/user');
 
 const app = express();
 
@@ -10,6 +12,9 @@ app.use(morgan('dev'));
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, '/public')));
+
+app.use('/wiki', wikiRouter);
+app.use('/user', userRouter);
 
 app.use((req, res) => {
     res.send(layout(''));
