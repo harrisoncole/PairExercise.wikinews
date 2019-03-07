@@ -13,8 +13,6 @@ router.post('/', async (req, res, next) => {
   const content = req.body.content;
 
 
-
-
   const page = new Page({
     title: title,
     content: content,
@@ -24,6 +22,7 @@ router.post('/', async (req, res, next) => {
   try {
     await page.save();
     res.redirect('/');
+    console.log(req.body);
   } catch (error) {
     console.error(error);
   }
