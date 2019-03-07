@@ -8,19 +8,20 @@ router.get('/', (req, res, next) => {
 })
 
 router.post('/', async (req, res, next) => {
-
+  const slug = req.body.title +'_'+req.body.author
   const page = new Page({
     title: req.body.title,
-    content: req.body.content
+    content: req.body.content,
+    slug: slug
   });
 
-  // try {
-  //   await page.save();
-  //   res.redirect('/');
-  // } catch (error) {
-  //   console.error(error);
-  // }
-  res.send(req.body.title);
+  try {
+    await page.save();
+    res.redirect('/');
+  } catch (error) {
+    console.error(error);
+  }
+
 })
 
 router.get('/add', (req, res, next) => {
