@@ -1,9 +1,8 @@
 const morgan = require('morgan');
 const express = require('express');
 const path = require('path')
-const {db} = require('./models');
+const models = require('./models');
 const layout = require('./views/layout');
-
 
 const app = express();
 
@@ -19,13 +18,20 @@ app.get('/', (req, res, next) => {
    res.send('hello Nevin');
 })
 
-app.listen(2580, () => {
-    console.log('Listening in on Port 2580!');
-})
-
-
-db.authenticate().
+models.db.authenticate().
 then(() => {
   console.log('connected to the database');
 })
 
+const dbInit = async() => {
+    try {
+        await models.db.sync({ force: true });
+        app.listen(2580, () => {
+            console.log('Listening in on Port 2580!');
+        })
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+dbInit();
