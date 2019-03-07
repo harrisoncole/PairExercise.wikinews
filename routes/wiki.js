@@ -8,10 +8,21 @@ router.get('/', (req, res, next) => {
 })
 
 router.post('/', async (req, res, next) => {
-  const slug = req.body.title +'_'+req.body.author
+
+  const title = req.body.title;
+  const content = req.body.content;
+
+  function generateSlug (title) {
+    // Removes all non-alphanumeric characters from title
+    // And make whitespace underscore
+    return title.replace(/\s+/g, '_').replace(/\W/g, '');
+  }
+
+  const slug = generateSlug(title);
+
   const page = new Page({
-    title: req.body.title,
-    content: req.body.content,
+    title: title,
+    content: content,
     slug: slug
   });
 
